@@ -1,8 +1,24 @@
+'use server'
+
 import { revalidatePath } from "next/cache";
 import ResultComponent from "./ResultComponent";
 import SendButton from "./SendButton";
 
+
 let result = "";
+
+interface ServiceResponseData {
+  id: number,
+  originalLink: string,
+  originalLinkId: string
+}
+
+interface ServiceResponse {
+  message: string,
+  statusCode: number,
+  isSuccessful: boolean,
+  data: ServiceResponseData | null 
+}
 
 function validateUrl(url: string) {
   const urlRgxPattern = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
@@ -17,10 +33,10 @@ function validateUrl(url: string) {
 }
 
 async function getShortLinkRequest(url: string) {
-  const request = await fetch("https://localhost:7267/api/LinkCutter/createshortlink", {
+  const request = await fetch("http://localhost:5167/api/LinkCutter/createshortlink", {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
 
     body: JSON.stringify({
@@ -33,13 +49,13 @@ async function getShortLinkRequest(url: string) {
   return response;
 }
 
-export default function Home() {
+export default async function Home() {
   
   
 
   async function urlFormAction(formData: FormData) {
-    'use server'
-
+    "use server"
+    
     const url = formData.get("urlInput")?.toString() as string;
 
     const isUrlValid = validateUrl(url)
@@ -52,6 +68,28 @@ export default function Home() {
       return;
     }
 
+    const response: ServiceResponse = await getShortLinkRequest(url);
+
+    if (response === null) {
+      result = "Something went wrong. Try it again later";
+
+      revalidatePath("/");
+
+      return;
+    }
+
+
+    if (!response.isSuccessful) {
+      result = response.message;
+
+      revalidatePath("/");
+
+      return;
+    }
+
+    result = response.data?.originalLinkId!;
+
+    revalidatePath("/");
 
   }
 
