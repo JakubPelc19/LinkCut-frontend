@@ -1,6 +1,8 @@
+import { revalidatePath } from "next/cache";
 import ResultComponent from "./ResultComponent";
 import SendButton from "./SendButton";
 
+let result = "";
 
 function validateUrl(url: string) {
   const urlRgxPattern = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
@@ -10,16 +12,28 @@ function validateUrl(url: string) {
   if (isUrlValid)
     return true;
   else
-    return false
+    return false;
 
 }
 
 export default function Home() {
   
+  
+
   async function urlFormAction(formData: FormData) {
     'use server'
 
-    const url = formData.get("urlInput")?.toString();
+    const url = formData.get("urlInput")?.toString() as string;
+
+    const isUrlValid = validateUrl(url)
+
+    if (!isUrlValid) {
+      result = "Url is not valid";
+
+      revalidatePath("/");
+
+      return;
+    }
 
 
   }
@@ -32,7 +46,7 @@ export default function Home() {
           <SendButton/>
         </form>
 
-        <ResultComponent/>
+        <ResultComponent result={result}/>
     </main>
   );
 }
