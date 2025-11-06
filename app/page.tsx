@@ -16,6 +16,23 @@ function validateUrl(url: string) {
 
 }
 
+async function getShortLinkRequest(url: string) {
+  const request = await fetch("https://localhost:7267/api/LinkCutter/createshortlink", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+
+    body: JSON.stringify({
+      link: url
+    })
+  });
+
+  const response = await request.json();
+
+  return response;
+}
+
 export default function Home() {
   
   
