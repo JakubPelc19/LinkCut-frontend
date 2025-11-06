@@ -2,6 +2,17 @@ import ResultComponent from "./ResultComponent";
 import SendButton from "./SendButton";
 
 
+function validateUrl(url: string) {
+  const urlRgxPattern = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+
+  const isUrlValid = urlRgxPattern.test(url);
+
+  if (isUrlValid)
+    return true;
+  else
+    return false
+
+}
 
 export default function Home() {
   
