@@ -33,7 +33,9 @@ function validateUrl(url: string) {
 }
 
 async function getShortLinkRequest(url: string) {
-  const request = await fetch("http://localhost:5167/api/LinkCutter/createshortlink", {
+  let response: ServiceResponse | null;
+  try {
+    const request = await fetch("http://localhost:5167/api/LinkCutter/createshortlink", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -43,8 +45,15 @@ async function getShortLinkRequest(url: string) {
       link: url
     })
   });
+  
+  response = await request.json();
 
-  const response = await request.json();
+  }
+  catch {
+    response = null;
+  }
+  
+  
 
   return response;
 }
@@ -68,13 +77,12 @@ export default async function Home() {
       return;
     }
 
-    const response: ServiceResponse = await getShortLinkRequest(url);
+    const response: ServiceResponse | null = await getShortLinkRequest(url);
 
     if (response === null) {
-      result = "Something went wrong. Try it again later";
+      result = "Something went wrong, please try it again later";
 
       revalidatePath("/");
-
       return;
     }
 
