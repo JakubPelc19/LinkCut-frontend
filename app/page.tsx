@@ -7,6 +7,8 @@ import { ServiceResponse } from "./Interfaces"
 
 
 let result = "";
+let isSuccessful = false;
+
 
 function validateUrl(url: string) {
   const urlRgxPattern = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
@@ -59,7 +61,9 @@ export default async function Home() {
 
     if (!isUrlValid) {
       result = "Url is not valid";
-
+      
+      isSuccessful = false;
+      
       revalidatePath("/");
 
       return;
@@ -68,22 +72,28 @@ export default async function Home() {
     const response: ServiceResponse | null = await getShortLinkRequest(url);
 
     if (response === null) {
-      result = "Something went wrong, please try it again later";
-
+      result = "Something went wrong, please try it again later!";
+      
+      isSuccessful = false;
+      
       revalidatePath("/");
+      
       return;
     }
 
 
     if (!response.isSuccessful) {
       result = response.message;
-
+      
+      isSuccessful = false;
+      
       revalidatePath("/");
 
       return;
     }
 
     result = response.data?.originalLinkId!;
+    isSuccessful = true;
 
     revalidatePath("/");
 
@@ -97,7 +107,7 @@ export default async function Home() {
           <SendButton/>
         </form>
 
-        <ResultComponent result={result}/>
+        <ResultComponent result={result} isSuccessful={isSuccessful}/>
     </main>
   );
 }
