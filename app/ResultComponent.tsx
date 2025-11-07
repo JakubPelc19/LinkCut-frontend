@@ -12,7 +12,7 @@ export default function ResultComponent( { result, isSuccessful }: { result: str
     <div className="bg-[#e6e6e6] justify-between items-center w-full h-14 mt-2 rounded-2xl flex pl-4 pr-2">
         <p>{message}</p>
         
-        <CopyButton/>
+        {isSuccessful && <CopyButton result={message}/>}
     </div>
 )
 }
