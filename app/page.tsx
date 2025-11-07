@@ -3,22 +3,10 @@
 import { revalidatePath } from "next/cache";
 import ResultComponent from "./ResultComponent";
 import SendButton from "./SendButton";
+import { ServiceResponse } from "./Interfaces"
 
 
 let result = "";
-
-interface ServiceResponseData {
-  id: number,
-  originalLink: string,
-  originalLinkId: string
-}
-
-interface ServiceResponse {
-  message: string,
-  statusCode: number,
-  isSuccessful: boolean,
-  data: ServiceResponseData | null 
-}
 
 function validateUrl(url: string) {
   const urlRgxPattern = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
