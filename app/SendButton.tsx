@@ -8,6 +8,7 @@ export default function SendButton() {
             alt="send button icon"
             width={24}
             height={24}
+            draggable={false}
             />
     </button>)
 }
