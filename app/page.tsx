@@ -100,10 +100,10 @@ export default async function Home() {
   }
 
   return (
-    <main className="sm:w-[600px] w-[300px] h-56 flex flex-col mb-10 items-center">
+    <main className="sm:w-[600px] w-[325px] h-56 flex flex-col mb-10 items-center">
       <h1 className="text-3xl mb-10">LinkCut</h1>
         <form action={urlFormAction} className="bg-[#e6e6e6] w-full h-14 rounded-2xl flex items-center pl-4 pr-2">
-          <input type="text" className="sm:w-[575px] w-[275px] h-14 outline-0" name="urlInput" id="urlInput" placeholder="Link" required/>
+          <input type="text" className="sm:w-[575px] w-[295px] h-14 outline-0" name="urlInput" id="urlInput" placeholder="Link" required/>
           <SendButton/>
         </form>
 
