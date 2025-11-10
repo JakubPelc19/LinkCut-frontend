@@ -10,7 +10,10 @@ export default function ResultComponent( { result, isSuccessful }: { result: str
 
     useEffect(() => {
         if (isSuccessful)
-            setMessage(window.location.href + result);
+            setMessage(() => window.location.href + result);
+        else
+            setMessage(() => result);
+
     }, [isSuccessful, result]);
     
     return (
