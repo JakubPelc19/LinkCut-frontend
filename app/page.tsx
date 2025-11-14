@@ -25,7 +25,7 @@ function validateUrl(url: string) {
 async function getShortLinkRequest(url: string) {
   let response: ServiceResponse | null;
   try {
-    const request = await fetch("http://localhost:5167/api/LinkCutter/createshortlink", {
+    const request = await fetch(`${process.env.LINKCUT_API}LinkCutter/createshortlink`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
