@@ -1,9 +1,6 @@
 import Image from "next/image"
 
 
-// Přidat button cooldown a ošetření proti posílání stejného odkazu
-// Pridat ješte hover na buttony a budeme mít hotovo hehe
-// Přidat reponzivní design
 
 export default function CopyButton({ result }: { result: string }) {
 
