@@ -1,3 +1,6 @@
+
+### USING Next.js with vulnerability (can be fixed by updating)
+
 # LinkCut-Frontend
 A modern frontend for LinkCut, a URL shortener built with Next.js, TypeScript, and a clean, responsive UI.
 This frontend communicates with the LinkCut ASP.NET Core API to shorten links and display results.
